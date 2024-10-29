@@ -18,3 +18,15 @@ To run this project locally:
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/kvk-store.git
+
+## Navigate to the project directory:
+
+cd kvk-store
+
+## Install the dependencies:
+
+npm install
+
+## Start/Run the application:
+
+npm run dev
