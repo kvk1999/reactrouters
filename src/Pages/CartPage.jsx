@@ -1,38 +1,38 @@
-// CartPage.js
+// CartPage.jsx
 import React, { useContext } from 'react';
 import { CartContext } from './CartContext';
 import './CartPage.css';
 
 function CartPage() {
-  const { cart, removeFromCart, updateQuantity, getTotalPrice } = useContext(CartContext);
+  const { cartItems, removeFromCart, updateQuantity, calculateTotal } = useContext(CartContext);
 
   return (
     <div className="cart-page">
-      <h2>Your Cart</h2>
-      {cart.length === 0 ? (
+      <h2>Shopping Cart</h2>
+      {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <div className="cart-items">
-          {cart.map((product) => (
-            <div key={product.id} className="cart-item">
-              <img src={product.image} alt={product.title} />
-              <div>
-                <h3>{product.title}</h3>
-                <p>${product.price.toFixed(2)}</p>
-                <label>
-                  Quantity:
-                  <input 
-                    type="number" 
-                    value={product.quantity} 
-                    onChange={(e) => updateQuantity(product.id, Math.max(1, e.target.value))}
-                  />
-                </label>
+          {cartItems.map((item) => (
+            <div key={item.id} className="cart-item">
+              <img src={item.image} alt={item.title} className="cart-item-image" />
+              <div className="cart-item-details">
+                <h3>{item.title}</h3>
+                <p>Price: ${item.price.toFixed(2)}</p>
+                
+                {/* Quantity controls */}
+                <div className="quantity-controls">
+                  <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                </div>
+
+                <button onClick={() => removeFromCart(item.id)}>Remove from Cart</button>
               </div>
-              <button onClick={() => removeFromCart(product.id)}>Remove</button>
             </div>
           ))}
-          <div className="total-price">
-            <h3>Total Price: ${getTotalPrice().toFixed(2)}</h3>
+          <div className="cart-total">
+            <h3>Total (10% discount applied): ${calculateTotal()}</h3>
           </div>
         </div>
       )}
